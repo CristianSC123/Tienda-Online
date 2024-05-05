@@ -111,3 +111,22 @@ function actualizaPassword($user_id, $password, $con)
     }
     return false;
 }
+
+function validaPassword($password, $repassword)
+{
+    if (strcmp($password, $repassword) === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function actualizaPasswordAdmin($user_id, $password, $con)
+{
+    $sql = $con->prepare("UPDATE admin SET password = ? WHERE id = ?");
+    if ($sql->execute([$password, $user_id])) {
+        return true;
+    }
+    return false;
+}
+

@@ -24,6 +24,16 @@
                         <a href="contacto.php" class="nav-link">Contacto</a>
                     </li>
                 </ul>
+
+                <form action="index.php" method="get" autocomplete="off">
+                    <div class="input-group pe-3">
+                        <input type="text" name="q" id="q" class="form-control form-control-sm" placeholder="Buscar..." aria-describedby="icon-buscar">
+                        <button type="submit" id="icon-buscar" class="btn btn-outline-info"><i class="fas fa-search"></i></button>
+                        
+                    </div>
+                </form>
+
+
                 <a href="checkout.php" class="btn btn-primary me-2 btn-sm">
                     <i class="fa-solid fa-cart-shopping"></i>Carrito <span id="num_cart" class="badge bg-secondary"><?php echo $num_cart ?></span>
                 </a>

@@ -40,7 +40,7 @@ if ($id == '' || $token == '') {
                 }
                 $dir->close();
 
-                $sqlTallas =  $con->prepare("SELECT DISTINCT t.id, t.nombre FROM productos_variantes as pv
+                /*$sqlTallas =  $con->prepare("SELECT DISTINCT t.id, t.nombre FROM productos_variantes as pv
                 INNER JOIN c_tallas AS t ON pv.id_talla = t.id
                 WHERE pv.id_producto = ?");
                 $sqlTallas->execute([$id]);
@@ -50,7 +50,7 @@ if ($id == '' || $token == '') {
                 INNER JOIN c_colores AS c ON pv.id_color = c.id
                 WHERE pv.id_producto = ?");
                 $sqlColores->execute([$id]);
-                $colores = $sqlColores->fetchAll(PDO::FETCH_ASSOC);
+                $colores = $sqlColores->fetchAll(PDO::FETCH_ASSOC);*/
             }
         } else {
             echo "Producto no encontrado";
@@ -140,31 +140,31 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);*/
                     </div>*/
                     ?>
 
-                    <div class="row g-2">
-                        <?php if ($tallas) { ?>
+                    <!-- <div class="row g-2">
+                        <? //php if ($tallas) { ?>
                             <div class="col-3 my-3">
                                 <label for="tallas" class="form-label">Tallas</label>
                                 <select class="form-select form-select-lg" name="tallas" id="tallas" onchange="cargarColores()">
 
-                                    <?php foreach ($tallas as $talla) { ?>
-                                        <option value="<?php echo $talla['id']; ?>"><?php echo $talla['nombre']; ?></option>
-                                    <?php } ?>
+                                    <?//php foreach ($tallas as $talla) { ?>
+                                        <option value="<?//php echo $talla['id']; ?>"><?php //echo $talla['nombre']; ?></option>
+                                    <?php //} ?>
                                 </select>
                             </div>
-                        <?php } ?>
+                        <?php //} ?>
 
-                        <?php if ($colores) { ?>
+                        <?php //if ($colores) { ?>
                             <div class="col-3 my-3" id="div-colores">
                                 <label for="colores" class="form-label">Colores</label>
                                 <select class="form-select form-select-lg" name="colores" id="colores">
-                                    <?php foreach ($colores as $color) { ?>
-                                        <option value="<?php echo $color['id']; ?>"><?php echo $colores['nombre']; ?></option>
-                                    <?php } ?>
+                                    <?php //foreach ($colores as $color) { ?>
+                                        <option value="<?php //echo $color['id']; ?>"><?php //echo $colores['nombre']; ?></option>
+                                    <?php //} ?>
                                 </select>
                             </div>
-                        <?php } ?>
+                        <?php //} ?>
 
-                    </div>
+                    </div> -->
 
 
 
@@ -172,9 +172,9 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);*/
                         Cantidad: <input class="form-control" id="cantidad" name="cantidad" type="number" type="number" min="1" max="10" value="1">
                     </div>
 
-                    <div class="col-3 my-3">
+                    <!-- <div class="col-3 my-3">
                         Precio: <input class="form-control" id="nuevo_precio">
-                    </div>
+                    </div> -->
 
                     <div class="d-grid gap-3 col-7">
                         <button class="btn btn-primary" type="button">Comprar ahora</button>
@@ -206,7 +206,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);*/
                 })
         }
 
-        const cbxTallas = document.getElementById('tallas');
+        /*const cbxTallas = document.getElementById('tallas');
         cargarColores();
 
         const cbxColores = document.getElementById('colores');
@@ -261,7 +261,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);*/
 
             let url = 'clases/productosAjax.php';
             let formData = new FormData()
-            formData.append('id_producto', '<?php echo $id; ?>')
+            formData.append('id_producto', '<?php //echo $id; ?>')
             if (idTalla !== 0 && idTalla !== '') {
                 formData.append('id_talla', idTalla)
             }
@@ -283,7 +283,7 @@ $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);*/
                     }
 
                 })
-        }
+        }*/
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

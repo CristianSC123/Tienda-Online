@@ -9,7 +9,9 @@
     <meta name="author" content="" />
     <title>Tienda en linea</title>
     <link href="<?php echo ADMIN_URL; ?>css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.min.css">k
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -18,24 +20,18 @@
         <a class="navbar-brand ps-3" href="index.html">TIENDA EN LINEA</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
         <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <ul class="d-none d-md-inline-block navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i><?php echo
+                $_SESSION['user_name']?></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                    <li><a class="dropdown-item" href="<?php echo ADMIN_URL;?>cambiar_password.php?id=<?php echo $_SESSION['user_id']?>">Cambiar Contraseña</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li><a class="dropdown-item" href="logout.php">Cerrar Sesion</a></li>
                 </ul>
             </li>
         </ul>
@@ -63,6 +59,11 @@
                         <a class="nav-link" href="<?php echo ADMIN_URL;?>compras">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Compras
+                        </a>
+
+                        <a class="nav-link" href="<?php echo ADMIN_URL;?>usuarios">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Usuarios
                         </a>
 
 

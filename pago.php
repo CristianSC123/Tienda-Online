@@ -33,6 +33,10 @@ if ($productos != null) {
 
 <body>
     <?php include 'menu.php' ?>
+    <!-- Agrega la imagen de carga -->
+    <img id="loader" src="images/cargando.gif" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 9999;">
+
+    <!-- Resto de tu código HTML -->
 
     <main>
         <div class="container">
@@ -107,7 +111,10 @@ if ($productos != null) {
                             value: <?php echo number_format($precio_usd, 2, '.', ''); ?>
                         },
                         description: 'Compra TIENDA ONLINE'
-                    }]
+                    }],
+                    application_context: {
+                        shipping_preference: "NO_SHIPPING"
+                    }
                 });
             },
             onApprove: function(data, actions) {
@@ -124,7 +131,12 @@ if ($productos != null) {
                             details: details
                         })
                     }).then(function(response) {
-                        window.location.href = "completado.php?key=" + details['id'];
+                        //document.getElementById("loader").style.display = "block";
+                        // Abrir la nueva ventana
+                        var nuevaVentana = window.open("completado.php?key=" + details['id'], "_blank");
+
+                        // Redirigir la ventana actual al índice
+                        window.location.href = "index.php";
                     })
                 });
             },

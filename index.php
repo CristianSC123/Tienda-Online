@@ -6,6 +6,10 @@ $con = $db->conectar();
 
 $idCategoria = $_GET['cat'] ?? '';
 $orden = $_GET['orden'] ?? '';
+$buscar = $_GET['q'] ?? '';
+
+$filtro = '';
+
 
 $orders = [
     'asc' => 'nombre ASC',
@@ -19,12 +23,16 @@ if (!empty($order)) {
     $order = " ORDER BY $order";
 }
 
+if ($buscar != '') {
+    $filtro = "AND (nombre LIKE '%$buscar%' || descripcion LIKE '%buscar%')";
+}
+
 if (!empty($idCategoria)) {
-    $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1
+    $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 $filtro
     AND id_categoria = ? $order");
     $sql->execute([$idCategoria]);
 } else {
-    $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 $order");
+    $sql = $con->prepare("SELECT id, nombre, precio FROM productos WHERE activo = 1 $filtro $order");
     $sql->execute();
 }
 

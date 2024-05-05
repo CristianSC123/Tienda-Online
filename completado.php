@@ -39,7 +39,7 @@ if ($id_transaccion == '') {
 </head>
 
 <body>
-    <?php include 'menu.php'?>
+    <?php include 'menu.php';?>
 
 
     <main>

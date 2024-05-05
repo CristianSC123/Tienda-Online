@@ -24,9 +24,10 @@ require_once '../header.php';
 
 
 ?>
-<main>
-    <div class="container">
+<main class="flex-shrink-0">
+    <div class="container mt-3">
         <h4>Compras</h4>
+        <a href="genera_reporte_compras.php" class="btn btn-success btn-sm">Reporte de compras</a>
         <hr>
 
         <table class="table">
@@ -80,31 +81,29 @@ require_once '../header.php';
 </div>
 
 <script>
-    const detalleModal = document.getElementById('detalleModal')
+    const detalleModal = document.getElementById('detalleModal');
     detalleModal.addEventListener('show.bs.modal', function(event) {
-        const button = event.relatedTarget
-        const orden = button.getAttribute('data-bs-orden')
-        const modalBody = detalleModal.querySelector('.modal-body')
+        const button = event.relatedTarget;
+        const orden = button.getAttribute('data-bs-orden');
+        const modalBody = detalleModal.querySelector('.modal-body');
 
-
-        const url = '<?php echo ADMIN_URL; ?>compras/getCompra.php'
+        const url = '<?php echo ADMIN_URL; ?>compras/getCompra.php';
 
         let formData = new FormData();
-        formData.append('orden', orden)
+        formData.append('orden', orden);
         fetch(url, {
-                method: 'post',
-                body: formData
+            method: 'post',
+            body: formData
+        })
+        .then((resp) => resp.json())
+        .then(function(data) {
+            modalBody.innerHTML = data;
+        });
+    });
 
-            })
-            .then((resp) => resp.json())
-            .then(function(data) {
-                modalBody.innerHTML = data
-            })
-    })
-
-    detalleModal.addEventListener('hide.bs.modal', function(event){
-        const modalBody = detalleModal.querySelector('.modal-body')
+    detalleModal.addEventListener('hide.bs.modal', function(event) {
+        const modalBody = detalleModal.querySelector('.modal-body');
         modalBody.innerHTML = '';
-    }
+    });
 </script>
 <?php include '../footer.php';

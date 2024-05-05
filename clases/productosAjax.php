@@ -1,6 +1,6 @@
 <?php
 require_once '../config/database.php';
-
+/*
 $datos = [];
 
 if (isset($_POST['action'])) {
@@ -13,7 +13,7 @@ if (isset($_POST['action'])) {
         $datos['variante'] = buscarIdVariante($con);
     }
 }
-
+/*
 function buscarColoresPorTalla($con)
 {
     $idProducto = $_POST['id_producto'] ?? 0;
@@ -46,5 +46,5 @@ function buscarIdVariante($con)
     $sql->execute([$idProducto, $idTalla, $idColor]);
     return $sql->fetch(PDO::FETCH_ASSOC);
      
-}
+}*/
 echo json_encode($datos);

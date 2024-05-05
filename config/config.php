@@ -5,6 +5,8 @@ $path = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 require_once $path.'/database.php';
 require_once $path.'/../admin/clases/cifrado.php';
 
+date_default_timezone_set('America/La_Paz');
+
 
 $db = new Database();
 $con = $db->conectar();
@@ -36,6 +38,7 @@ define("MAIL_USER",$config['correo_email']);
 define("MAIL_PASS",descifrar($config['correo_password']));
 define("MAIL_PORT",$config['correo_puerto']);
 
+session_name('cliente_session');
 session_start();
 
 

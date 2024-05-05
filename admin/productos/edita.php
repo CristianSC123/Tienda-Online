@@ -41,7 +41,7 @@ while (($archivo = $dirInit->read()) !== false) {
 }
 $dirInit->close();
 
-$resultado = $con->query("SELECT id, nombre FROM c_tallas");
+/*$resultado = $con->query("SELECT id, nombre FROM c_tallas");
 $tallas = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
 $resultado = $con->query("SELECT id, nombre FROM c_colores");
@@ -50,7 +50,7 @@ $colores = $resultado->fetchAll(PDO::FETCH_ASSOC);
 $sqlVariantes = $con->prepare("SELECT id, id_talla, id_color, precio, stock FROM productos_variantes WHERE id_producto = ?");
 $sqlVariantes->execute([$id]);
 $variantes = $sqlVariantes->fetchAll(PDO::FETCH_ASSOC);
-
+*/
 ?>
 
 <style>
@@ -146,7 +146,8 @@ $variantes = $sqlVariantes->fetchAll(PDO::FETCH_ASSOC);
 
             <hr>
 
-            <div class="row">
+
+            <!-- <div class="row">
                 <div class="col-12 mb-3">
                     <h4 class="me-4">Variantes</h4>
                     <button type="button" class="btn btn-success btn-sm" id="agrega-variante">+ Variante</button>
@@ -225,7 +226,7 @@ $variantes = $sqlVariantes->fetchAll(PDO::FETCH_ASSOC);
                         <input type="text" class="form-control" name="stock_variante[]">
                     </div>
                 </div>
-            </template>
+            </template> -->
 
             <button type="submit" class="btn btn-primary">
                 Guardar
@@ -257,6 +258,7 @@ $variantes = $sqlVariantes->fetchAll(PDO::FETCH_ASSOC);
         })
     }
 
+/*
     const btnVariante = document.getElementById('agrega-variante')
     btnVariante.addEventListener('click', agregaVariante)
 
@@ -265,6 +267,6 @@ $variantes = $sqlVariantes->fetchAll(PDO::FETCH_ASSOC);
         const plantilla = document.getElementById('plantilla_variante').content.cloneNode(true)
 
         contenido.appendChild(plantilla)
-    }
+    }*/
 </script>
 <?php require_once '../footer.php' ?>

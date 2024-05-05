@@ -84,6 +84,7 @@ if ($stm->execute([$nombre, $descripcion, $precio, $descuento, $stock, $categori
             }
         }
     }
+    /*
     $idVariante = $_POST['id_variante'] ?? [];
 
     $talla = $_POST['talla'] ?? [];
@@ -117,7 +118,7 @@ if ($stm->execute([$nombre, $descripcion, $precio, $descuento, $stock, $categori
                 $stm->execute([$id, $idTalla, $idColor, $precio, $stock]);
             }
         }
-    }
+    }*/
 }
 
 header('Location: index.php');
