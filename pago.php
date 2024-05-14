@@ -18,6 +18,33 @@ if ($productos != null) {
     header("Location : index.php");
     exit;
 }
+
+//Recuperar el id del departamento de envio
+$id_departamento = $_GET['id_departamento'];
+$calle_avenida = isset($_GET['calle_avenida']) ? $_GET['calle_avenida'] : null;
+$numero_puerta = isset($_GET['numero_puerta']) ? $_GET['numero_puerta'] : null;
+
+
+// Consulta SQL para obtener el costo de envío
+$sql_costo_envio = $con->prepare("SELECT nombre_departamento, costo FROM destinos WHERE id = ?");
+$sql_costo_envio->execute([$id_departamento]);
+$datos_costo_envio = $sql_costo_envio->fetch(PDO::FETCH_ASSOC);
+
+$departamento = $datos_costo_envio['nombre_departamento'];
+
+
+
+// Verificar si se encontraron datos del departamento para calcular el costo de envío
+if ($datos_costo_envio) {
+    $nombre_departamento = $datos_costo_envio['nombre_departamento'];
+    $costo_envio = $datos_costo_envio['costo'];
+} else {
+    // En caso de no encontrar el departamento, establecer un valor predeterminado para el costo de envío
+    $nombre_departamento = "Departamento no especificado";
+    $costo_envio = 0;
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,7 +68,7 @@ if ($productos != null) {
     <main>
         <div class="container">
             <div class="row">
-                <div class=" col-6">
+                <div class="col-6">
                     <h4>Detalles de pago</h4>
                     <div id="paypal-button-container"></div>
                 </div>
@@ -57,7 +84,7 @@ if ($productos != null) {
                             </thead>
                             <tbody>
                                 <?php if ($lista_carrito == null) {
-                                    echo '<tr><td colspan="5" class="text-center"><b>Lista vacia</b></td></tr>';
+                                    echo '<tr><td colspan="5" class="text-center"><b>Lista vacía</b></td></tr>';
                                 } else {
                                     $total = 0;
                                     foreach ($lista_carrito as $producto) {
@@ -76,24 +103,31 @@ if ($productos != null) {
                                             <td>
                                                 <div id="subtotal_<?php echo $_id ?>" name="subtotal[]"><?php echo MONEDA . number_format($subtotal, 2, '.', ''); ?></div>
                                             </td>
-
                                         </tr>
-                                    <?php } ?>
-                                    <tr>
-                                        <td colspan="2">
-                                            <p class="h3 text-end" id="total"><?php echo MONEDA . number_format($total, 2, '.', ''); ?></p>
-                                        </td>
-
-                                    </tr>
-                            </tbody>
-                        <?php $precio_usd = $total * $cambio_actual;
+                                <?php }
                                 } ?>
+                                <tr>
+                                    <td><?php echo "Envio a " . $nombre_departamento ?></td>
+                                    <td>
+                                        <?php echo MONEDA .  $costo_envio ?>
+                                    </td>
+                                    <?php $total = $total + $costo_envio;
+                                    $precio_usd = $total * $cambio_actual;
+                                    ?>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <p class="h3 text-end" id="total"><?php echo MONEDA . number_format($total, 2, '.', ''); ?></p>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=AY5YL-hCri9BFPQrnDBmqah6dxYmxYBNEA4g32UAKwFdej4c4-kGvF8zkZ5_2MS9OH98H6z4ekAsZr5b&currency=USD"></script>
@@ -118,34 +152,42 @@ if ($productos != null) {
                 });
             },
             onApprove: function(data, actions) {
-                let url = 'clases/captura.php'
+                let url = 'clases/captura.php';
                 actions.order.capture().then(function(details) {
-                    console.log(details)
+                    console.log(details);
                     let trans = details.purchase_units[0].payments.captures[0].id;
+
+                    // Datos adicionales que deseas enviar
+                    let departamento = '<?php echo $departamento; ?>';
+                    let calle_avenida = '<?php echo $calle_avenida; ?>';
+                    let numero_puerta = '<?php echo $numero_puerta; ?>';
+
                     return fetch(url, {
                         method: 'post',
                         headers: {
                             'content-type': 'application/json'
                         },
                         body: JSON.stringify({
-                            details: details
+                            details: details,
+                            departamento: departamento,
+                            calle_avenida: calle_avenida,
+                            numero_puerta: numero_puerta
                         })
                     }).then(function(response) {
-                        //document.getElementById("loader").style.display = "block";
-                        // Abrir la nueva ventana
                         var nuevaVentana = window.open("completado.php?key=" + details['id'], "_blank");
-
-                        // Redirigir la ventana actual al índice
                         window.location.href = "index.php";
-                    })
+                    });
                 });
             },
+
             onCancel: function(data) {
                 alert("El pago se canceló. Puede intentarlo nuevamente más tarde.");
                 console.log(data);
             }
         }).render('#paypal-button-container');
+
     </script>
+
 </body>
 
 </html>

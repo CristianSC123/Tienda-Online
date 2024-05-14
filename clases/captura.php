@@ -8,6 +8,11 @@ $con = $db->conectar();
 $json = file_get_contents('php://input');
 $datos = json_decode($json, true);
 
+$departamento = isset($datos['departamento']) ? $datos['departamento'] : (isset($_POST['departamento']) ? $_POST['departamento'] : 'nada');
+$calleAvenida = isset($datos['calle_avenida']) ? $datos['calle_avenida'] : (isset($_POST['calle_avenida']) ? $_POST['calle_avenida'] : 'nada');
+$numeroPuerta = isset($datos['numero_puerta']) ? $datos['numero_puerta'] : (isset($_POST['numero_puerta']) ? $_POST['numero_puerta'] : 'nada');
+
+
 if (is_array($datos)) {
 
     $idCliente = $_SESSION['user_cliente'];
@@ -24,10 +29,11 @@ if (is_array($datos)) {
     $totalUSD = $datos['details']['purchase_units'][0]['amount']['value'];
     $totalBOB = $totalUSD / $cambio_actual;
     $idTransaccion = $datos['details']['id'];
+    $envio = 'Procesando pedido';
 
-    $comando = $con->prepare("INSERT INTO compra (fecha, status, email, id_cliente, totalUSD, totalBOB, id_transaccion, medio_pago) 
-           VALUES (?,?,?,?,?,?,?,?) ");
-    $comando->execute([$time, $status, $email, $idCliente, $totalUSD, $totalBOB, $idTransaccion, 'paypal']);
+    $comando = $con->prepare("INSERT INTO compra (fecha, status, email, id_cliente, totalUSD, totalBOB, id_transaccion, medio_pago, ciudad_envio, direccion_envio, nro_puerta, estado_envio) 
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?) ");
+    $comando->execute([$time, $status, $email, $idCliente, $totalUSD, $totalBOB, $idTransaccion, 'paypal', $departamento, $calleAvenida, $numeroPuerta, $envio]);
     $id = $con->lastInsertId();
 
     if ($id > 0) {
@@ -83,3 +89,6 @@ function restarStock($id, $cantidad, $con)
     $sql = $con->prepare("UPDATE productos SET stock = stock - ? WHERE id = ?");
     $sql->execute([$cantidad, $id]);
 }
+
+
+

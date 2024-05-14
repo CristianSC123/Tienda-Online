@@ -1,65 +1,60 @@
 <?php
 require_once '../config/database.php';
 require_once '../config/config.php';
-require_once '../header.php';
 
-if (!isset($_SESSION['user_type'])) {
+
+if (!isset($_SESSION['user_type']) || ($_SESSION['user_type'] != 'admin')) {
     header("Location: ../index.php");
     exit;
 }
 
-if ($_SESSION['user_type'] != 'admin') {
-    header("Location: ../../index.php");
-    exit;
-}
-
-
 $db = new Database();
 $con = $db->conectar();
 
-$sql = "SELECT id, nombre FROM categorias WHERE activo =1";
+
+$sql = "SELECT id, carnet, nombre, celular FROM couriers where activo = 1";
 $resultado = $con->query($sql);
-$categorias = $resultado->fetchAll(PDO::FETCH_ASSOC);
+
+require_once '../header.php';
+
+//session_destroy();
+
 
 ?>
-
 <main>
-    <div class="container-fluid px-4">
-        <h1 class="mt-3">Categorias</h1>
+    <div class="container">
+        <h4>Couriers registrados</h4>
         <a href="nuevo.php" class="btn btn-primary">Nuevo</a>
+        <hr>
 
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Carnet</th>
+                    <th>Nombre</th>
+                    <th>Celular</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <?php while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) { ?>
                     <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th></th>
-                        <th></th>
-
+                        <td><?php echo $row['carnet'] ?></td>
+                        <td><?php echo $row['nombre'] ?></td>
+                        <td><?php echo $row['celular'] ?></td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="edita.php?id=<?php echo $row['id']; ?>">Editar</a>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalElimina" data-bs-id="<?php echo $row['id']; ?>">Eliminar</button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($categorias as $cat) { ?>
-                        <tr>
-                            <td><?php echo $cat['id']; ?></td>
-                            <td><?php echo $cat['nombre']; ?></td>
-                            <td>
-                                <a class="btn btn-warning btn-sm" href="edita.php?id=<?php echo $cat['id']; ?>">Editar</a>
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalElimina" data-bs-id="<?php echo $cat['id']; ?>">Eliminar</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
 </main>
 
-
-<!-- Modal Body -->
-<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
 <div class="modal fade" id="modalElimina" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
@@ -95,5 +90,4 @@ $categorias = $resultado->fetchAll(PDO::FETCH_ASSOC);
     });
 </script>
 
-
-<?php require_once '../footer.php' ?>
+<?php include '../footer.php';

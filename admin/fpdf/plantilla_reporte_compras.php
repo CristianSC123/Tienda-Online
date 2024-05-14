@@ -15,7 +15,7 @@ class PDF extends FPDF
 
     public function Header()
     {
-        $this->Image('../images/logo.jpg', 10, 5, 20);
+        $this->Image('../../images/logo.jpg', 10, 5, 20);
         $this->SetFont('Arial', 'B', '11');
         $this->Cell(30);
         $y = $this->GetY();

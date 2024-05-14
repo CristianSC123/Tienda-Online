@@ -17,17 +17,16 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">TIENDA EN LINEA</a>
+        <a class="navbar-brand ps-3" href="<?php echo ADMIN_URL?>inicio.php">WARATITO</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar-->
         <ul class="d-none d-md-inline-block navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i><?php echo
-                $_SESSION['user_name']?></a>
+                                                                                                                                                                                $_SESSION['user_name'] ?></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="<?php echo ADMIN_URL;?>cambiar_password.php?id=<?php echo $_SESSION['user_id']?>">Cambiar Contraseña</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                    <li><a class="dropdown-item" href="<?php echo ADMIN_URL; ?>cambiar_password.php?id=<?php echo $_SESSION['user_id'] ?>">Cambiar Contraseña</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
@@ -41,49 +40,39 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <a class="nav-link" href="<?php echo ADMIN_URL;?>configuracion">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Configuracion
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>configuracion">
+                            <div class="sb-nav-link-icon"><i class="fas fa-cog fa-2x"></i></div>
+                            Configuración
                         </a>
 
-                        <a class="nav-link" href="<?php echo ADMIN_URL;?>categorias">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Categorias
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>categorias">
+                            <div class="sb-nav-link-icon"><i class="fas fa-list-alt fa-2x"></i></div>
+                            Categorías
                         </a>
 
-                        <a class="nav-link" href="<?php echo ADMIN_URL;?>productos">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>productos">
+                            <div class="sb-nav-link-icon"><i class="fas fa-box fa-2x"></i></div>
                             Productos
                         </a>
 
-                        <a class="nav-link" href="<?php echo ADMIN_URL;?>compras">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>compras">
+                            <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart fa-2x"></i></div>
                             Compras
                         </a>
 
-                        <a class="nav-link" href="<?php echo ADMIN_URL;?>usuarios">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>usuarios">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users fa-2x"></i></div>
                             Usuarios
                         </a>
 
-
-
-
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Layouts
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        <a class="nav-link" href="<?php echo ADMIN_URL; ?>couriers">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-truck fa-2x"></i></div>
+                            Couriers
                         </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                            </nav>
-                        </div>
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Usuario:</div>
+                    <div class="small">Usuario: <?php echo $_SESSION['user_name'] ?></div>
                     Tienda Online
                 </div>
             </nav>

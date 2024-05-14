@@ -14,10 +14,6 @@ if ($productos != null) {
     }
 }
 
-//session_destroy();
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -91,7 +87,7 @@ if ($productos != null) {
                     <div class="col-md-5 offset-md-7 d-grid gap-2">
                         <?php
                         if (isset($_SESSION['user_id'])) { ?>
-                            <a href="pago.php" class="btn btn-primary btn-lg">Realizar pago</a>
+                            <a href="form_envios.php" class="btn btn-primary btn-lg">Realizar pago</a>
                         <?php } else { ?>
                             <a href="login.php?pago" class="btn btn-primary btn-lg">Realizar pago</a>
                         <?php } ?>

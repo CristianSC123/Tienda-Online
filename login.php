@@ -17,14 +17,7 @@ if (!empty($_POST)) {
     if(count($errors)==0){
         $errors[]=login($usuario, $password, $con, $proceso);
     }
-
-
-    
 }
-
-
-//session_destroy();
-
 
 ?>
 <!DOCTYPE html>

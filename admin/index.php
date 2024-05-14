@@ -6,12 +6,6 @@ require_once 'clases/adminFunciones.php';
 $db = new Database();
 $con = $db->conectar();
 
-/*$password = password_hash('admin', PASSWORD_DEFAULT);
-$hashedPassword = $con->quote($password);
-$sql = "INSERT INTO admin (usuario, password, nombre, email, activo, fecha_alta) 
-VALUES ('admin', $hashedPassword, 'Administrador', 'jhonataasantacruz@gmail.com' ,'1', NOW())";
-$con->query($sql);*/
-
 $errors = [];
 if(!empty($_POST)){
     $usuario = trim($_POST['usuario']);
@@ -25,13 +19,7 @@ if(!empty($_POST)){
     }
 }
 
-
-
-
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -82,7 +70,7 @@ if(!empty($_POST)){
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy; Waratito 2024</div>
                         </div>
                     </div>
                 </footer>

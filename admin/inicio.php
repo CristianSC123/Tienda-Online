@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_type']) || ($_SESSION['user_type'] != 'admin')) {
     exit;
 }
 
-
 $db = new Database();
 $con = $db->conectar();
 

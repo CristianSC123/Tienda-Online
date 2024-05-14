@@ -39,55 +39,55 @@ if ($id_transaccion == '') {
 </head>
 
 <body>
-    <?php include 'menu.php';?>
-
-
+    <?php include 'menu.php'; ?>
     <main>
-        <div class="container">
-            <?php if (strlen($error) > 0 || $id_transaccion == 0) { ?>
-                <div class="row">
-                    <div class="col">
-                        <h3><?php echo $error; ?></h3>
-
-                    </div>
+    <div class="container">
+        <?php if (strlen($error) > 0 || $id_transaccion == 0) { ?>
+            <div class="row">
+                <div class="col">
+                    <h3><?php echo $error; ?></h3>
                 </div>
-            <?php } else { ?>
-
-
-                <div class="row">
-                    <div class="col">
-                        <b>ID de la compra: </b><?php echo $id_transaccion; ?><br>
-                        <b>Fecha de la compra: </b><?php echo $fecha; ?><br>
-                        <b>Total de la compra: </b><?php echo MONEDA . number_format($total, 2, '.', ''); ?><br>
-                    </div>
+            </div>
+        <?php } else { ?>
+            <div class="row">
+                <div class="col">
+                    <b>ID de la compra: </b><?php echo $id_transaccion; ?><br>
+                    <b>Fecha de la compra: </b><?php echo $fecha; ?><br>
+                    <b>Total de la compra: </b><?php echo MONEDA . number_format($total, 2, '.', ''); ?><br>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <table class="table">
-                            <thead>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Producto</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($row_det = $sqlDet->fetch(PDO::FETCH_ASSOC)) {
+                                $importe = $row_det['precio'] * $row_det['cantidad']; ?>
                                 <tr>
-                                    <th>Cantidad</th>
-                                    <th>Producto</th>
-                                    <th>Importe</th>
+                                    <td><?php echo $row_det['cantidad']; ?></td>
+                                    <td><?php echo $row_det['nombre']; ?></td>
+                                    <td><?php echo MONEDA . $importe; ?></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php while ($row_det = $sqlDet->fetch(PDO::FETCH_ASSOC)) {
-                                    $importe = $row_det['precio'] * $row_det['cantidad']; ?>
-                                    <tr>
-                                        <td><?php echo $row_det['cantidad']; ?></td>
-                                        <td><?php echo $row_det['nombre']; ?></td>
-                                        <td><?php echo MONEDA . $importe; ?></td>
-                                    </tr>
-                                <?php }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
-            <?php } ?>
-        </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <!-- Botón para volver a la página principal -->
+                    <a href="compra_detalle.php" class="btn btn-primary">Tus compras</a>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</main>
 
-</body>
 
 </html>

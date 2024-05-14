@@ -17,10 +17,13 @@ if ($orden == null) {
 $db = new Database();
 $con = $db->conectar();
 
-$sqlCompra = $con->prepare("SELECT compra.id, id_transaccion, fecha, totalBOB, CONCAT(nombres, ' ', apellidos) AS cliente
- FROM compra 
- INNER JOIN clientes on compra.id_cliente = clientes.id
- WHERE id_transaccion = ? LIMIT 1");
+$sqlCompra = $con->prepare("SELECT compra.id, compra.id_transaccion, compra.fecha, compra.totalBOB, compra.ciudad_envio,
+    compra.direccion_envio, compra.nro_puerta, CONCAT(clientes.nombres, ' ', clientes.apellidos) AS cliente_nombre,
+    clientes.telefono, clientes.email
+    FROM compra 
+    INNER JOIN clientes ON compra.id_cliente = clientes.id
+    WHERE id_transaccion = ? LIMIT 1");
+
 $sqlCompra->execute([$orden]);
 $rowCompra = $sqlCompra->fetch(PDO::FETCH_ASSOC);
 
@@ -39,6 +42,12 @@ $sqlDetalle->execute([$idCompra]);
 $html = '<p> <strong>Fecha: </strong> ' . $fecha . ' </p>';
 $html .= '<p> <strong>ID compra: </strong> ' . $rowCompra['id_transaccion'] . ' </p>';
 $html .= '<p> <strong>Total: </strong> ' . number_format($rowCompra['totalBOB'], 2, ',', '') . ' </p>';
+$html .= '<p><strong> Datos del cliente: </strong>' . $rowCompra['cliente_nombre'] . '</p>';
+$html .= '<p><strong> Contacto del cliente: </strong>' . $rowCompra['telefono'] .  ' - ' . $rowCompra['email'] . '</p>';
+
+$html .= '<p><strong> Enviar a la ciudad de: </strong>' . $rowCompra['ciudad_envio'] . '</p>';
+$html .= '<p><strong> Datos de envio: </strong>' . $rowCompra['direccion_envio'] . ' Nro.' . $rowCompra['nro_puerta']. '</p>';
+
 
 $html .= '<table class="table">
 <thead>
@@ -68,4 +77,3 @@ while ($row = $sqlDetalle->fetch(PDO::FETCH_ASSOC)) {
 }
 $html .= '</tbody></table>';
 echo json_encode($html, JSON_UNESCAPED_UNICODE);
-?>
