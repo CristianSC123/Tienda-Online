@@ -49,10 +49,11 @@ $categorias = $sqlCategorias->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda virtual</title>
+    <title>TechMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/allmin.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         /* Estilo para las imágenes de productos */
         .card-img-top {
@@ -146,8 +147,19 @@ $categorias = $sqlCategorias->fetchAll(PDO::FETCH_ASSOC);
                     if (data.ok) {
                         let elemento = document.getElementById("num_cart")
                         elemento.innerHTML = data.numero
+                        Swal.fire({
+                            title: '¡Producto agregado!',
+                            text: 'Producto agregado al carrito',
+                            icon: 'success',
+                            confirmButtonText: 'Aceptar'
+                        });
                     } else {
-                        alert("No hay suficientes productos en el stock")
+                        Swal.fire({
+                            title: 'Stock insuficiente',
+                            text: 'No hay suficientes productos en stock',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        }); 
                     }
                 })
         }

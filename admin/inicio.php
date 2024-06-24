@@ -93,7 +93,7 @@ include 'header.php';
                         Productos más vendidos en la semana
                     </div>
                     <div class="card-body">
-                        <div>
+                        <div style="max-width: 300px;">
                             <canvas id="chart-productos"></canvas>
                         </div>
                     </div>
@@ -141,12 +141,12 @@ include 'header.php';
 
     const ctxProductos = document.getElementById('chart-productos');
 
-    new Chart(ctxProductos, { // Utiliza ctxProductos en lugar de ctx
+    new Chart(ctxProductos, {
         type: 'pie',
         data: {
-            labels: ['<?php echo $nombreProductos;?>'],
+            labels: ['<?php echo $nombreProductos; ?>'],
             datasets: [{
-                data: [<?php echo $cantidadProductos;?>],
+                data: [<?php echo $cantidadProductos; ?>],
                 borderWidth: 1
             }]
         },

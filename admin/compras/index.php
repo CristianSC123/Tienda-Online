@@ -18,10 +18,21 @@ $sql = "SELECT compra.id_transaccion, compra.fecha, compra.status, compra.medio_
         FROM compra 
         INNER JOIN clientes ON compra.id_cliente = clientes.id 
         LEFT JOIN couriers ON compra.id_courier = couriers.id
-        WHERE compra.id_courier IS NOT NULL
+        WHERE compra.id_courier IS NOT NULL AND compra.estado_envio = 'entregado'
         ORDER BY DATE(compra.fecha) DESC";
 $resultado = $con->query($sql);
 
+//Listar las ventas que ya hayan sido enviadas a su destino
+
+$sqlEnviados = "SELECT compra.id_transaccion, compra.fecha, compra.status, compra.medio_pago, compra.fecha_envio,
+        CONCAT(clientes.nombres, ' ', clientes.apellidos) AS cliente, compra.totalBOB, 
+        compra.estado_envio, compra.ciudad_envio, couriers.nombre AS courier_nombre
+        FROM compra 
+        INNER JOIN clientes ON compra.id_cliente = clientes.id 
+        LEFT JOIN couriers ON compra.id_courier = couriers.id
+        WHERE compra.id_courier IS NOT NULL AND compra.estado_envio = 'enviado'
+        ORDER BY DATE(compra.fecha) DESC";
+$resultadoEnviados = $con->query($sqlEnviados);
 
 
 //Listar las ventas que todavia no han sido enviadas
@@ -48,6 +59,9 @@ require_once '../header.php';
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="envios-pendientes-tab" data-bs-toggle="tab" data-bs-target="#envios-pendientes" type="button" role="tab" aria-controls="envios-pendientes" aria-selected="false">Envíos Pendientes</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pedidos-enviados-tab" data-bs-toggle="tab" data-bs-target="#pedidos-enviados" type="button" role="tab" aria-controls="pedidos-enviados" aria-selected="false">Pedidos enviados</button>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -86,6 +100,50 @@ require_once '../header.php';
 
                                 <td>
                                     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#detalleModal" data-bs-orden="<?= $row['id_transaccion']; ?>">Ver detalles</button>
+                                    <?php /*
+                                    <button type="button" class="btn btn-sm btn-success mt-1" data-bs-toggle="modal" data-bs-target="#finalizarModal" data-bs-orden="<?= $row['id_transaccion']; ?>">Finalizar</button>
+                                    */?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Enviados Tab -->
+            <div class="tab-pane fade" id="pedidos-enviados" role="tabpanel" aria-labelledby="pedidos-enviados-tab">
+                <h4>Pedidos enviados</h4>
+                <hr>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID Compra</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Fecha Compra</th>
+                            <th>Estado de envio</th>
+                            <th>Ciudad de envio</th>
+                            <th>Responsable de envio</th>
+                            <th>Fecha de envio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $resultadoEnviados->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <tr>
+                                <td><?php echo $row['id_transaccion'] ?></td>
+                                <td><?php echo $row['cliente'] ?></td>
+                                <td><?php echo $row['totalBOB'] . ' ' . MONEDA ?></td>
+                                <td><?php echo $row['fecha'] ?></td>
+                                <td><?php echo $row['estado_envio'] ?></td>
+                                <td><?php echo $row['ciudad_envio'] ?></td>
+                                <td><?php echo $row['courier_nombre'] ?></td>
+                                <td><?php echo $row['fecha_envio']
+                                    ?></td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#detalleModal" data-bs-orden="<?= $row['id_transaccion']; ?>">Ver detalles</button>
                                     <button type="button" class="btn btn-sm btn-success mt-1" data-bs-toggle="modal" data-bs-target="#finalizarModal" data-bs-orden="<?= $row['id_transaccion']; ?>">Finalizar</button>
                                 </td>
                             </tr>
@@ -93,6 +151,7 @@ require_once '../header.php';
                     </tbody>
                 </table>
             </div>
+
             <!-- Envíos Pendientes Tab -->
             <div class="tab-pane fade" id="envios-pendientes" role="tabpanel" aria-labelledby="envios-pendientes-tab">
                 <h4>Envíos Pendientes</h4>
@@ -176,8 +235,8 @@ require_once '../header.php';
                 <input type="hidden" id="idCourier">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="guardarEnvio()">Guardar</button>
+                <button type="button" class="btn btn-success" onclick="window.location.href='../couriers/nuevo.php'">Nuevo Courier</button>
             </div>
         </div>
     </div>

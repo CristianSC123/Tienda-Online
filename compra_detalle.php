@@ -113,9 +113,12 @@ $rowCourier = $sqlCourier->fetch(PDO::FETCH_ASSOC);
                         </div>
                         <div class="card-body">
                             <p><strong>Estado de envio: </strong><?php echo isset($rowCompra['estado_envio']) ? $rowCompra['estado_envio'] : 'No disponible'; ?></p>
-                            <p><strong>Enviado el: </strong><?php echo isset($rowCompra['fecha_envio']) ? $rowCompra['fecha_envio'] : 'No disponible'; ?></p>
-                            <p><strong>Envio a cargo de: </strong><?php echo isset($rowCourier['nombre_courier']) ? $rowCourier['nombre_courier'] : 'No asignado'; ?></p>
-                            <p><strong>Contacto: </strong><?php echo isset($rowCourier['celular_courier']) ? $rowCourier['celular_courier'] : 'No asignado'; ?></p>
+                            <?php if (isset($rowCourier['nombre_courier'])) { ?>
+                                <p><strong>Enviado el: </strong><?php echo isset($rowCompra['fecha_envio']) ? $rowCompra['fecha_envio'] : 'No disponible'; ?></p>
+                                <p><strong>Envio a cargo de: </strong><?php echo isset($rowCourier['nombre_courier']) ? $rowCourier['nombre_courier'] : 'No asignado'; ?></p>
+                                <p><strong>Contacto: </strong><?php echo isset($rowCourier['celular_courier']) ? $rowCourier['celular_courier'] : 'No asignado'; ?></p>
+                                <p><strong>Fecha de entrega: </strong></p>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
